@@ -1,0 +1,77 @@
+#include<stdio.h>
+#include<string.h>
+char s[10002];
+int main()
+{
+	int T;
+	scanf("%d",&T);
+	while(T--)
+	{
+		int n;
+		scanf("%d",&n);getchar();
+		gets(s);
+		int L=strlen(s);
+		int csum=0;
+		int start=0,end=0;
+		int count=0;
+		bool flag=false;
+		bool endend=false;
+		for(int i=0;i<L;++i)
+		{
+			start=i;
+			while(s[i]!='.'&&s[i]!='!'&&s[i]!='?')//寻找结束符号 
+				++i;
+			end=i;
+			csum+=end-start+1;
+			if(csum<n&&end==L-1)
+			{
+				count++;
+				break;
+			}
+			else if(csum==n)//正好读完 
+			{
+				count++;
+				flag=false;
+				csum=0;
+				continue;
+			}
+			else if(csum<n)//读到一半 
+			{
+				flag=true;
+			}
+			else//读完超出限制 
+			{
+				if(flag==true)//之前有一部分内容
+				{
+					if(end-start-1>n)
+					{
+						printf("impossible\n");//如果当前部分超出了
+						endend=true;
+						break; 
+					}
+					else
+					{
+						csum=end-start-1;//当前部分转换为
+						count++;
+						flag=true; 
+					}
+				} 
+				else
+				{
+					printf("impossible\n");
+					endend=true;
+					break;
+				}
+			}
+		}
+		if(flag==true)
+		{
+			count++;
+		}
+		if(endend==false)
+		{
+			printf("%d\n",count);
+		}
+	}
+	return 0;
+} 
